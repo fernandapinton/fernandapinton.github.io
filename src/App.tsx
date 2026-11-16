@@ -1,120 +1,145 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { ArrowDownIcon, ArrowRightIcon, ArrowUpIcon, ArrowUpRightIcon, AsteriskIcon } from '@phosphor-icons/react'
+import heroImage from './assets/fernanda-microfone.jpg'
 import './App.css'
 
+// Personalize a apresentação, a bio, os projetos e os links neste bloco.
+const profile = {
+  firstName: 'Fernanda',
+  lastName: 'Pinton',
+  role: 'Cantora',
+  intro: 'Conheça meu trabalho com a voz, das gravações às apresentações ao vivo.',
+  bio: 'Sou Fernanda Pinton, musicista e cantora. Criei este espaço para compartilhar meu percurso na música e encontrar pessoas que queiram criar comigo.',
+  email: 'contato@example.com',
+  instagram: '', // Insira a URL completa do perfil.
+  youtube: '',
+  spotify: '',
+}
+
+// Substitua os exemplos por trabalhos reais e adicione as URLs para ouvir ou assistir.
+const projects = [
+  {
+    name: 'Apresentação ao vivo',
+    category: 'Palco',
+    description: 'Espaço para o vídeo de uma apresentação, com o repertório e o local do show.',
+    cover: 'palco',
+    artwork: 'ao vivo',
+    href: '',
+  },
+  {
+    name: 'Gravação em estúdio',
+    category: 'Gravação',
+    description: 'Espaço para uma faixa gravada, com o link para ouvir e os créditos da produção.',
+    cover: 'estudio',
+    artwork: 'estúdio',
+    href: '',
+  },
+  {
+    name: 'Colaboração musical',
+    category: 'Parcerias',
+    description: 'Espaço para uma participação vocal, com os artistas envolvidos e o link do projeto.',
+    cover: 'parcerias',
+    artwork: 'em parceria',
+    href: '',
+  },
+]
+
 function App() {
-  const [count, setCount] = useState(0)
+  const name = `${profile.firstName} ${profile.lastName}`
+  const contacts = [
+    { label: profile.email, href: `mailto:${profile.email}` },
+    { label: 'Instagram', href: profile.instagram },
+    { label: 'YouTube', href: profile.youtube },
+    { label: 'Spotify', href: profile.spotify },
+  ].filter(({ href }) => href)
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <a className="skip-link" href="#conteudo">Ir para o conteúdo</a>
+      <header className="site-header" id="inicio">
+        <div className="shell header-inner">
+          <a className="wordmark" href="#inicio" aria-label={`${name}, início`}>
+            {profile.firstName} <em>{profile.lastName}</em>
+          </a>
+          <nav aria-label="Navegação principal">
+            <a href="#trabalhos">Trabalhos</a>
+            <a href="#sobre">Sobre</a>
+            <a className="nav-contact" href="#contato">Contato <ArrowUpRightIcon aria-hidden="true" /></a>
+          </nav>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
+      <main id="conteudo">
+        <section className="hero" aria-labelledby="intro">
+          <div className="shell hero-inner">
+            <div className="hero-copy">
+              <p className="eyebrow">{profile.role}</p>
+              <h1 id="intro">{profile.firstName} <em>{profile.lastName}<span>.</span></em></h1>
+              <p className="hero-description">{profile.intro}</p>
+              <div className="hero-actions">
+                <a className="primary-link" href="#trabalhos">Ver trabalhos <ArrowDownIcon weight="bold" aria-hidden="true" /></a>
+                <a className="text-link" href="#sobre">Sobre mim <ArrowRightIcon weight="bold" aria-hidden="true" /></a>
+              </div>
+            </div>
+            <div className="hero-art">
+              <div className="hero-photo">
+                <img src={heroImage} alt="Microfone sobre veludo escuro, com luz verde e laranja" width="1374" height="1145" fetchPriority="high" />
+              </div>
+              <AsteriskIcon className="hero-spark" weight="bold" aria-hidden="true" />
+            </div>
+          </div>
+        </section>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <section className="work section shell" id="trabalhos" aria-labelledby="work-title">
+          <div className="section-heading">
+            <h2 id="work-title">Trabalhos selecionados<span>.</span></h2>
+            <p>Projetos de exemplo</p>
+          </div>
+          <div className="project-grid">
+            {projects.map((project) => (
+              <article className="project" key={project.name}>
+                <div className={`project-art project-art--${project.cover}`} aria-hidden="true">
+                  <span>{project.artwork}</span>
+                </div>
+                <div className="project-copy">
+                  <p className="project-category">{project.category}</p>
+                  <h3>
+                    {project.href ? (
+                      <a className="text-link" href={project.href}>{project.name} <ArrowUpRightIcon aria-hidden="true" /></a>
+                    ) : project.name}
+                  </h3>
+                  <p className="project-description">{project.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <section className="about" id="sobre" aria-labelledby="about-title">
+          <div className="shell about-inner">
+            <h2 id="about-title">Sobre mim<span>.</span></h2>
+            <p>{profile.bio}</p>
+          </div>
+        </section>
+
+        <section className="contact" id="contato" aria-labelledby="contact-title">
+          <div className="shell contact-inner">
+            <div>
+              <h2 id="contact-title">Vamos conversar?</h2>
+              <p>Para convites de shows, participações e parcerias musicais.</p>
+            </div>
+            <ul aria-label="Links de contato">
+              {contacts.map(({ label, href }) => (
+                <li key={label}><a href={href}>{label} <ArrowUpRightIcon weight="bold" aria-hidden="true" /></a></li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <footer className="shell site-footer">
+        <span>© {name}</span>
+        <a className="text-link" href="#inicio">Voltar ao topo <ArrowUpIcon aria-hidden="true" /></a>
+      </footer>
     </>
   )
 }
