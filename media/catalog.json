@@ -1,0 +1,93 @@
+{
+  "hero": "images/fernanda-hero.jpg",
+  "performances": [
+    {
+      "title": "Contra o Tempo",
+      "context": "Encontro da Música Mineira - Sesc Palladium",
+      "poster": "sesc",
+      "src": "delivery/sesc-v1.mp4",
+      "aspectRatio": 1.7777777777777777,
+      "featured": true
+    },
+    {
+      "title": "Clube da Esquina nº 2",
+      "context": "Simpósio Internacional CODAJIC - Teatro Feluma",
+      "poster": "clube-da-esquina",
+      "src": "delivery/clube-da-esquina-v1.mp4",
+      "aspectRatio": 1.7777777777777777,
+      "featured": true
+    },
+    {
+      "title": "Tempos modernos",
+      "context": "Semana da Psicologia",
+      "poster": "tempos-modernos",
+      "src": "video/tempos modernos semana da psicologia.mp4",
+      "aspectRatio": 0.5625,
+      "featured": true
+    },
+    {
+      "title": "Como Nossos Pais",
+      "context": "Acolhimento de Calouros - CMMG",
+      "poster": "como-nossos-pais",
+      "src": "video/como nossos pais acolhimento calouros.mp4",
+      "aspectRatio": 0.5625,
+      "featured": false
+    },
+    {
+      "title": "Mais Ninguém",
+      "context": "Circuito Mineiro de Inovação",
+      "poster": "mais-ninguem",
+      "src": "video/mais ninguém circuito mineiro de inovacao.mp4",
+      "aspectRatio": 0.5625,
+      "featured": false
+    },
+    {
+      "title": "Malemolência",
+      "context": "Casamento T&A",
+      "poster": "malemolencia",
+      "src": "delivery/malemolencia-v1.mp4",
+      "aspectRatio": 0.5625,
+      "featured": false
+    },
+    {
+      "title": "Happier Than Ever",
+      "context": "Mercado Distrital",
+      "poster": "happier-than-ever",
+      "src": "video/happier than ever distrital.mp4",
+      "aspectRatio": 0.5625,
+      "featured": false
+    },
+    {
+      "title": "Adventure of a Lifetime",
+      "context": "MEDSONGS - Projeto de Extensão",
+      "poster": "adventure-of-a-lifetime",
+      "src": "video/adventure of a lifetime medsongs.mp4",
+      "aspectRatio": 0.5625,
+      "featured": false
+    },
+    {
+      "title": "Malandragem",
+      "context": "Major Lock Pub",
+      "poster": "malandragem",
+      "src": "video/malandragem major.mp4",
+      "aspectRatio": 1.7777777777777777,
+      "featured": false
+    },
+    {
+      "title": "Subirusdoistiozin",
+      "context": "Escola do Sebrae",
+      "poster": "subiru",
+      "src": "video/subiru sarau 2.mp4",
+      "aspectRatio": 0.5625,
+      "featured": false
+    },
+    {
+      "title": "Mistérios",
+      "context": "Coro Feminino da ESMU",
+      "poster": "misterios",
+      "src": "video/misterios-coro-feminino-esmu.mp4",
+      "aspectRatio": 0.5555555555555556,
+      "featured": false
+    }
+  ]
+}

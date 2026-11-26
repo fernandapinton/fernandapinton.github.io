@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap');
 
 :root {
   font-family: 'DM Sans', system-ui, sans-serif;
@@ -8,15 +8,41 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
-  --ink: #211825;
-  --paper: #fff2de;
-  --mint: #bdebd0;
-  --orange: #ff9b6c;
-  --heading: 'Bricolage Grotesque', 'DM Sans', system-ui, sans-serif;
-  --serif: 'Playfair Display', Georgia, serif;
+  --ink: #36151e;
+  --paper: #fffcf2;
+  --lilac: #7e52a0;
+  --pink: #e78f8e;
+  --violet: #16001e;
+  --cream: #fffcf2;
+  --deep-ink: #36151e;
+  --border: #36151e;
+  --shadow: #36151e;
+  --about-background: #7e52a0;
+  --contact-background: #e78f8e;
+  --grooves: #7e52a038;
+  --action: #7e52a0;
+  --on-accent: #fffcf2;
+  color-scheme: light;
+  --heading: 'Merriweather', Georgia, serif;
+  --serif: 'Merriweather', Georgia, serif;
+  --heading-letter-spacing: -.035em;
+  --serif-letter-spacing: -.01em;
 }
 
-* { box-sizing: border-box; }
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ink: #f7eee8;
+  --paper: #160f1b;
+  --lilac: #c49be2;
+  --border: #715c78;
+  --shadow: #08050c;
+  --about-background: #2b1a38;
+  --contact-background: #2c1c29;
+  --grooves: #c49be24d;
+  --on-accent: #36151e;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
 
@@ -26,6 +52,8 @@ h1, h2, h3, p, ul { margin: 0; }
 
 h1, h2, h3 {
   font-family: var(--heading);
+  font-weight: 700;
+  letter-spacing: var(--heading-letter-spacing);
   line-height: 1.05;
 }
 
@@ -38,7 +66,7 @@ a:focus-visible {
 
 img { display: block; max-width: 100%; }
 
-::selection { background: var(--orange); color: var(--ink); }
+::selection { background: var(--pink); color: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

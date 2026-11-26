@@ -1,0 +1,6 @@
+/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Expose-Headers: Content-Length, Content-Range, Accept-Ranges, ETag
+  Cache-Control: public, max-age=3600, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Robots-Tag: noindex

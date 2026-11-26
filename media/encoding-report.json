@@ -1,0 +1,38 @@
+[
+  {
+    "source": "video/sesc.mp4",
+    "destination": "delivery/sesc-v1.mp4",
+    "previous": "optimized/sesc.mp4",
+    "sourceBytes": 730398345,
+    "bytes": 24453809,
+    "duration": 291.733333,
+    "width": 854,
+    "height": 480,
+    "video": "h264",
+    "audio": "aac"
+  },
+  {
+    "source": "video/clube da esquina n 2.mp4",
+    "destination": "delivery/clube-da-esquina-v1.mp4",
+    "previous": "optimized/clube-da-esquina.mp4",
+    "sourceBytes": 339831426,
+    "bytes": 24280554,
+    "duration": 134.466667,
+    "width": 1280,
+    "height": 720,
+    "video": "h264",
+    "audio": "aac"
+  },
+  {
+    "source": "video/malemolencia casamento t&a.mp4",
+    "destination": "delivery/malemolencia-v1.mp4",
+    "previous": "optimized/malemolencia.mp4",
+    "sourceBytes": 180336012,
+    "bytes": 24281118,
+    "duration": 83.566667,
+    "width": 720,
+    "height": 1280,
+    "video": "h264",
+    "audio": "aac"
+  }
+]

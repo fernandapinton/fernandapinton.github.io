@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local sources, attachments and generated artifacts are never publication inputs.
+public/media/
+# Recording excluded from publication by the owner.
+media/published/optimized/gravacao-feluma.mp3
+.codex-attachments/
+media-dist/
+.tools/
+.env
+.env.*
+!.env.example
