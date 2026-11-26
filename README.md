@@ -1,6 +1,6 @@
 # Portfólio da Fernanda Pinton
 
-React + TypeScript + Vite. Aplicação no GitHub Pages e mídia estática no Cloudflare Pages Free, sem Functions, R2, Stream, domínio pago ou assinatura. Nenhum deploy, push ou alteração de conta foi realizado durante a preparação local.
+React + TypeScript + Vite. Aplicação no GitHub Pages e mídia estática no Cloudflare Pages Free, sem Functions, R2, Stream, domínio pago ou assinatura. Mídias publicadas em `https://fernandapinton-github-io.pages.dev`; aplicação em `https://fernandapinton.github.io`.
 
 ## Arquitetura
 
@@ -45,7 +45,7 @@ Não há BrowserRouter nem rotas de páginas: `/#sobre`, `/#trabalhos`, `/#conta
 3. Execute `npm run media:stage` e `npm run media:build`. O build falha se faltar um arquivo ou algum selecionado exceder 25 MiB; nunca pula vídeos silenciosamente. O artefato anterior é limpo antes da validação para evitar upload obsoleto. Faça commit das cópias em `media/published` junto do catálogo; os diretórios gerados `dist` e `media-dist` não vão ao Git.
 4. No Cloudflare Free, crie **Pages → Connect to Git**, selecione esse repositório, produção `main`, framework `None`, raiz do projeto `/`, build **`node scripts/media.mjs build`**, output **`media-dist`**, Node **24** (`NODE_VERSION=24`). Não habilite Functions/Workers, R2, Stream ou planos pagos. Não precisa de tokens no repositório. A integração Git faz deploy automático após pushes. Pode restringir build watch paths a `media/*`, `media/**`, `scripts/media.mjs` e `scripts/media-lib.mjs`; desabilite previews se não quiser publicar branches. Não use `public` como output.
 5. Aguarde o primeiro deploy de mídia. No GitHub, **Settings → Secrets and variables → Actions → Variables**, crie `VITE_MEDIA_BASE_URL` com a URL real `https://<media-project>.pages.dev`.
-6. Em **Settings → Pages → Build and deployment**, selecione **GitHub Actions**. Faça push para `main` ou execute manualmente **GitHub Pages**. O workflow testa, faz lint, verifica todas as URLs remotas (MIME/CORS/Range), gera `dist` e publica usando OIDC e `GITHUB_TOKEN`; não há segredo permanente. Sem mídia publicada ou variável válida, ele bloqueia a publicação.
+6. Em **Settings → Pages → Build and deployment**, selecione **GitHub Actions**. Faça push para `main` ou execute manualmente **GitHub Pages**. O workflow testa, faz lint, verifica todas as URLs remotas (MIME/CORS/tamanho e comportamento de Range), gera `dist` e publica usando OIDC e `GITHUB_TOKEN`; não há segredo permanente. Sem mídia publicada ou variável válida, ele bloqueia a publicação.
 7. Se site e mídia mudarem no mesmo push, GitHub pode começar antes de Cloudflare concluir. Depois do sucesso no Cloudflare, reexecute GitHub Pages. Isso mantém pipelines simples e evita publicar referências indisponíveis. Mudanças apenas em `media/published` não disparam o site; alterações no catálogo disparam.
 
 Não é necessário adicionar método de pagamento. Se a plataforma solicitar upgrade ou cartão, confirme Pages Free e repositório público antes de prosseguir. O conteúdo selecionado se torna público ao fazer push ou deploy.
@@ -72,13 +72,14 @@ Alternativas futuras: comprimir outra cópia (perda de resolução/qualidade); e
 
 Os vídeos mantêm identidade e chaves estáveis; não há troca de `src` durante animações. `crossOrigin="anonymous"` com CORS permite capturar o quadro pausado em canvas. Pôsteres usam lazy loading/decodificação assíncrona; a foto principal mantém prioridade alta. Vídeos ativos/vizinhos usam metadata e demais previews `none`, preservando a estratégia anterior; `preload` é sugestão e o navegador decide quanto baixar. Não há arquivo de áudio separado selecionado para publicação.
 
-`_headers` libera leitura anônima e expõe metadados de Range; não inventa `Accept-Ranges` ou `206`. O servidor precisa atender às solicitações de bytes. As extensões `.mp4`, `.mp3` e `.jpg` permitem MIME correto; `media:verify` valida os tipos retornados e um GET parcial real para cada vídeo/áudio. `404.html` evita fallback HTML de SPA em mídia ausente. `faststart` permite ler metadados antes do restante do MP4.
+`_headers` libera leitura anônima e expõe metadados de Range; não inventa `Accept-Ranges` ou `206`. O Cloudflare Pages atualmente responde `200` com o arquivo inteiro a solicitações de bytes, conforme a documentação oficial. A proprietária escolheu manter essa plataforma e aceitar essa limitação. As extensões `.mp4`, `.mp3` e `.jpg` permitem MIME correto; `media:verify` envia GET com Range e valida MIME, CORS e tamanho. Por padrão exige resposta parcial `206`; com `MEDIA_ALLOW_FULL_RESPONSES=true`, aceita também `200` se Content-Length corresponder exatamente ao arquivo selecionado. A resposta é cancelada após ler os headers, evitando baixar todos os vídeos durante a verificação. O workflow habilita essa opção explicitamente para Cloudflare Pages. `404.html` evita fallback HTML de SPA em mídia ausente. `faststart` permite ler metadados antes do restante do MP4.
 
 ```powershell
 npm test
 npm run lint
 npm run media:build
-$env:VITE_MEDIA_BASE_URL = 'https://<media-project>.pages.dev'
+$env:VITE_MEDIA_BASE_URL = 'https://fernandapinton-github-io.pages.dev'
+$env:MEDIA_ALLOW_FULL_RESPONSES = 'true'
 npm run build
 npm run media:verify
 ```
@@ -87,7 +88,11 @@ O build principal falha se arquivos audiovisuais entrarem em `dist`. Cloudflare 
 
 Validação inicial, anterior à retirada do áudio: 15 testes, lint, build do site (5 arquivos, 324,2 KiB, sem mídia), build de mídia (24 arquivos, 171,34 MiB), formatos e decodificação completa dos 11 MP4 e do MP3. Prévia em desktop e viewport de 390 px: reprodução, navegação, atualização em `/#trabalhos` e posição de pausa preservada ao voltar ao cartão. Duas origens locais confirmaram reprodução com CORS e captura do quadro em JPEG, sem erros no console. As 24 referências locais foram verificadas por HTTP; os 12 recursos de áudio/vídeo responderam com 206/Content-Range e CORS. Os onze vídeos iniciaram reprodução no navegador com readyState 4; o MP3 também reproduziu em uma página de verificação local, sem expor a seção oculta do portfólio. FFmpeg emitiu avisos de timestamps repetidos ao escrever a saída nula de quatro vídeos existentes (Adventure, Happier, Mais Ninguém e Malandragem); concluiu a decodificação com código zero. Esses arquivos não foram alterados. Verificar busca/sincronia nesses vídeos nos dispositivos finais.
 
-Após deploy, confira desktop e celular: abrir diretamente `/#trabalhos`, atualizar, reproduzir, pausar, buscar no meio do vídeo, navegar/arrastar durante a pausa e voltar ao cartão; testar o som dos vídeos. Em Network, confirmar `206`, `Content-Range`, MIME, CORS, nenhum MP3 automático e ausência de novos downloads completos em cada animação. Validação local não substitui headers reais do CDN ou Safari/iOS.
+Após deploy, confira desktop e celular: abrir diretamente `/#trabalhos`, atualizar, reproduzir, pausar, buscar no meio do vídeo, navegar/arrastar durante a pausa e voltar ao cartão; testar o som dos vídeos. Em Network, conferir MIME, CORS, ausência de MP3 e comportamento de downloads durante a navegação. No Cloudflare Pages, `200` com arquivo completo é esperado: a busca pode depender dos dados já baixados, e `preload="metadata"` pode baixar mais do que o necessário. Não há garantia de economia de tráfego ou de busca imediata, especialmente em Safari/iOS. Validação local não substitui headers reais do CDN ou Safari/iOS.
+
+### Limitação de entrega de vídeo aceita
+
+A validação do CDN real retornou `200` em vez de `206` nos onze vídeos, com MIME, CORS e Content-Length corretos. Esse comportamento é documentado em [Serving Pages](https://developers.cloudflare.com/pages/configuration/serving-pages/). A opção adotada mantém todos os vídeos no Cloudflare Pages, sem Functions, serviços pagos ou proxy. Não foi removida a proteção contra arquivos inexistentes, HTML no lugar de vídeo, CORS ausente ou tamanho incorreto. Testes locais com suporte a Range não representam esse comportamento do CDN.
 
 ## Retirada da gravação
 

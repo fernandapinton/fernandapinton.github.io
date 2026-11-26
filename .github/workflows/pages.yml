@@ -21,6 +21,8 @@ jobs:
     env:
       VITE_MEDIA_BASE_URL: ${{ vars.VITE_MEDIA_BASE_URL }}
       VITE_BASE_PATH: /
+      # Accepted Cloudflare Pages limitation: static media returns full files.
+      MEDIA_ALLOW_FULL_RESPONSES: 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -1,19 +1,25 @@
-import { catalog, paths } from './media-lib.mjs'
+import { stat } from 'node:fs/promises'
+import { resolve } from 'node:path'
+import { catalog, paths, root, safePath } from './media-lib.mjs'
+import { validateMediaResponse } from './media-response.mjs'
 
 const base = process.env.VITE_MEDIA_BASE_URL?.replace(/\/+$/, '')
 if (!base?.startsWith('https://')) throw new Error('Set VITE_MEDIA_BASE_URL to the deployed media HTTPS URL.')
 const failures = []
+const allowFullResponse = process.env.MEDIA_ALLOW_FULL_RESPONSES === 'true'
+let fullResponses = 0
 for (const path of paths) {
   const url = `${base}/${path.split('/').map(encodeURIComponent).join('/')}`
   const audiovisual = /\.(mp4|mp3)$/.test(path)
   try {
+    const { size } = await stat(safePath(resolve(root, 'media/published'), path))
     const response = await fetch(url, { method: audiovisual ? 'GET' : 'HEAD', headers: audiovisual ? { Range: 'bytes=0-1023', Origin: 'https://example.github.io' } : {}, signal: AbortSignal.timeout(30_000) })
     await response.body?.cancel()
-    const expectedType = path.endsWith('.mp4') ? 'video/mp4' : path.endsWith('.mp3') ? 'audio/mpeg' : 'image/jpeg'
-    if (!response.ok || !response.headers.get('content-type')?.startsWith(expectedType)) throw new Error(`HTTP ${response.status} / ${response.headers.get('content-type')}`)
-    if (audiovisual && (response.status !== 206 || !response.headers.get('content-range')?.startsWith('bytes 0-1023/') || response.headers.get('access-control-allow-origin') !== '*')) throw new Error('Range (206/Content-Range) or anonymous CORS missing')
-    console.log(`OK ${path}`)
+    const delivery = validateMediaResponse(path, response, size, allowFullResponse)
+    if (delivery === 'full') fullResponses++
+    console.log(`OK ${path}${delivery === 'full' ? ' (200: full-file delivery accepted)' : ''}`)
   } catch (error) { failures.push(`${path}: ${error.message}`) }
 }
 if (failures.length) throw new Error(failures.join('\n'))
 console.log(`Verified ${paths.length} deployed references including ${catalog.performances.length} videos.`)
+if (fullResponses) console.log(`${fullResponses} full-file responses accepted explicitly; seeking and download size depend on browser buffering.`)
